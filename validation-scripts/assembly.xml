@@ -23,12 +23,14 @@ under the License.
     </formats>
     <fileSets>
         <fileSet>
+            <directory>.</directory>
             <includes>
-                <include>validation-scripts/LICENSE.txt</include>
-                <include>validation-scripts/README.md</include>
+                <include>LICENSE.txt</include>
+                <include>README.md</include>
                 <include>requirements.txt</include>
-                <include>setup.py</include>
-                <include>validation-scripts/ice_validator/**</include>
+                <include>tox.ini</include>
+                <include>*.py</include>
+                <include>ice_validator/**/*.py</include>
             </includes>
             <excludes>
                 <exclude>**/*.pyc</exclude>
