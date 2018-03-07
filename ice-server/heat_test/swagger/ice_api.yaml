@@ -1,0 +1,85 @@
+swagger: "2.0"
+
+info:
+  title: "ICE validation"
+  description: "Heat template validation rest API"
+  contact:
+    name: ONAP
+    url: https://www.onap.org
+    email: onap-discuss@lists.onap.org
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: "1.0.0"
+
+basePath: /onapapi/ice/v1
+
+paths:
+  /:
+    get:
+      summary: "list HEAT templates"
+      operationId: heat_validator.class_instance.ping
+      responses:
+        '200':
+          description: 'server is up and running'
+          schema:
+            type: string
+    post:
+      summary: "validate HEAT template"
+      operationId: heat_validator.class_instance.validate
+      consumes: [
+        "multipart/form-data"
+      ]
+      produces: [
+        "application/json"
+      ]
+      parameters: [
+         {
+            "name": "file",
+            "in": "formData",
+            "description": "file to upload",
+            "required": true,
+            "type": "file"
+        },
+        {
+            "name": "debug",
+            "in": "query",
+            "description": "debug mode",
+            "required": false,
+            "type": "boolean"
+        }
+      ]
+      responses:
+        "200":
+          description: 'validation success'
+          schema: {
+              "$ref": "#/definitions/Result"
+          }
+        "400":
+          description: 'validation error'
+          schema: {
+              "$ref": "#/definitions/Result"
+          }
+        "500":
+          description: 'validation error'
+          schema: {
+              "$ref": "#/definitions/Result"
+          }
+definitions:
+  Result:
+    required: [
+      "status",
+      "message"
+    ]
+    properties: {
+      "status": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "message": {
+        "type": "string"
+      },
+      "debug": {
+        "type": "string"
+      }
+    }

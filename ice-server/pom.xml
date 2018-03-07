@@ -20,18 +20,19 @@ under the License.
         <groupId>org.onap.oparent</groupId>
         <artifactId>oparent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../oparent</relativePath>
+        <relativePath>../../oparent</relativePath>
     </parent>
 
     <groupId>org.onap.vnfsdk.ice</groupId>
-    <artifactId>vnf-sdk-ice</artifactId>
+    <artifactId>vnf-sdk-ice-server</artifactId>
     <packaging>pom</packaging>
 
-    <name>vnfsdk-ice</name>
-    <description>HEAT template validation</description>
-
-    <modules>
-        <module>validation-scripts</module>
-        <module>ice-server</module>
-    </modules>
+    <name>ice rest API</name>
+    <description>rest API for HEAT template validation</description>
+    <properties>
+      <sonar.language>py</sonar.language>
+      <sonar.pluginName>Python</sonar.pluginName>
+      <sonar.inclusions>**/*.py</sonar.inclusions>
+      <sonar.skip>false</sonar.skip>
+    </properties>
 </project>
