@@ -30,9 +30,12 @@ under the License.
     <name>ice rest API</name>
     <description>rest API for HEAT template validation</description>
     <properties>
-      <sonar.language>py</sonar.language>
-      <sonar.pluginName>Python</sonar.pluginName>
-      <sonar.inclusions>**/*.py</sonar.inclusions>
-      <sonar.skip>false</sonar.skip>
+        <sonar.sources>.</sonar.sources>
+        <sonar.python.coverage.reportPath>coverage.xml</sonar.python.coverage.reportPath>
+        <sonar.language>py</sonar.language>
+        <sonar.pluginName>Python</sonar.pluginName>
+        <sonar.inclusions>**/*.py</sonar.inclusions>
+        <sonar.exclusions>version.py,setup.py</sonar.exclusions>
     </properties>
+
 </project>

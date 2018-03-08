@@ -15,7 +15,7 @@ print(sys.path)
 
 import app as myapp
 
-ICE_URL = '/ice/'
+ICE_URL = '/onapapi/ice/v1/'
 
 flask_app = myapp.create_test_app()
 

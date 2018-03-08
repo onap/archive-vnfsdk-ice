@@ -20,8 +20,8 @@ import os
 from setuptools import setup, find_packages
 import sys
 
-if sys.version_info < (2, 7):
-    sys.exit('VNF SDK requires Python 2.7+')
+if sys.version_info < (3, 0):
+    sys.exit('VNF SDK requires Python 3.0+')
 
 root_dir = os.path.dirname(__file__)
 install_requires = []
