@@ -33,5 +33,6 @@ under the License.
     <modules>
         <module>validation-scripts</module>
         <module>ice-server</module>
+	<module>docker</module>
     </modules>
 </project>

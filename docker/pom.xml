@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2018 Orange. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+--><project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.onap.oparent</groupId>
+        <artifactId>oparent</artifactId>
+        <version>0.1.1</version>
+        <relativePath>../../oparent</relativePath>
+    </parent>
+
+    <groupId>org.onap.vnfsdk.ice</groupId>
+    <artifactId>vnf-sdk-ice-docker</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>ice docker image builder</name>
+    <description>heat validation docker image builder</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+        <docker.push.registry></docker.push.registry>
+        <skip.docker.build>true</skip.docker.build>
+        <skip.docker.tag>true</skip.docker.tag>
+        <skip.docker.push>true</skip.docker.push>
+        <docker.skip>false</docker.skip>
+        <docker.skip.build>false</docker.skip.build>
+    </properties>
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.16.7</version>
+                        <configuration>
+                            <verbose>true</verbose>
+                            <apiVersion>1.23</apiVersion>
+                            <skipDocker>${docker.skip}</skipDocker>
+                            <images>
+                                <image>
+                                    <name>onap/vnfsdk/ice</name>
+                                    <alias>ice</alias>
+                                    <build>
+                                        <cleanup>try</cleanup>
+                                        <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
+                                        <assembly>
+                                            <mode>dir</mode>
+                                            <inline xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+                                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                                    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+                                                <id>middleware-rest</id>
+                                                <fileSet>
+                                                    <directory>${project.basedir}/../ice-server</directory>
+                                                    <includes>
+                                                        <include>requirements.txt</include>
+                                                        <include>README.MD</include>
+                                                    </includes>
+                                                    <outputDirectory>ice-server</outputDirectory>
+                                                </fileSet>
+                                                <fileSet>
+                                                    <directory>${project.basedir}/../ice-server/heat_test</directory>
+                                                    <excludes>
+                                                        <exclude>**/*.pyc</exclude>
+                                                        <exclude>**/__pycache__</exclude>
+                                                    </excludes>
+                                                    <outputDirectory>ice-server/heat_test</outputDirectory>
+                                                </fileSet>
+                                                <fileSet>
+                                                    <directory>${project.basedir}/../validation-scripts</directory>
+                                                    <includes>
+                                                        <include>requirements.txt</include>
+                                                        <include>README.MD</include>
+                                                    </includes>
+                                                    <outputDirectory>validation-scripts</outputDirectory>
+                                                </fileSet>
+                                                <fileSet>
+                                                    <directory>${project.basedir}/../validation-scripts/ice_validator</directory>
+                                                    <excludes>
+                                                        <exclude>**/*.pyc</exclude>
+                                                        <exclude>**/__pycache__</exclude>
+                                                    </excludes>
+                                                    <outputDirectory>validation-scripts/ice_validator</outputDirectory>
+                                                </fileSet>
+                                            </inline>
+                                        </assembly>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>clean-images</id>
+                                <phase>pre-clean</phase>
+                                <goals>
+                                    <goal>remove</goal>
+                                </goals>
+                                <configuration>
+                                    <removeAll>true</removeAll>
+                                    <image>onap/vnfsdk/ice</image>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>generate-images</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                                <configuration>
+                                    <skipDockerBuild>${docker.skip.build}</skipDockerBuild>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>push-images</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                                <configuration>
+                                    <image>onap/vnfsdk/ice</image>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

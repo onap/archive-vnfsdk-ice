@@ -7,7 +7,7 @@ import zipfile
 from io import StringIO
 
 import pytest
-from flask import (request, jsonify, abort)
+from flask import (request, jsonify, abort, current_app)
 
 
 class HeatValidator(object):
@@ -49,7 +49,8 @@ class HeatValidator(object):
                 original_output = sys.stdout
                 # Assign StringIO so the output is not sent anymore to the console
                 sys.stdout = StringIO()
-            exit_code = pytest.main(['../../validation-scripts/ice_validator',
+            script_path = current_app.config['ICE_SCRIPT_PATH']
+            exit_code = pytest.main([script_path,
                                      '--resultlog=' + tmp_dir + '/result.txt',
                                      '--template-dir', tmp_dir])
             with open(tmp_dir + '/result.txt', 'r') as result_file:
@@ -62,7 +63,7 @@ class HeatValidator(object):
         except zipfile.BadZipFile:
             logging.exception("invalid file")
             abort(422, {'status': 4, 'message': 'invalid file'})
-        except:
+        except Exception as e:
             logging.exception("server error on file")
             abort(500, {'status': 3, 'message': 'server error'})
         finally:
