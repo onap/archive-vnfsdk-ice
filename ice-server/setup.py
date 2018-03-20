@@ -21,7 +21,7 @@ from setuptools import setup, find_packages
 import sys
 
 if sys.version_info < (3, 0):
-    sys.exit('VNF SDK requires Python 3.0+')
+    sys.exit('VNF SDK ICE server requires Python 3.0+')
 
 root_dir = os.path.dirname(__file__)
 install_requires = []
@@ -44,28 +44,19 @@ with open(os.path.join(root_dir, 'requirements.txt')) as requirements:
         else:
             install_requires.append(requirement)
 
+# read __version__
+exec(open('./version.py').read())
+
 setup(
     name='vnfsdk-ice-server',
-    version='0.1',
-    description='VNF SDK Heat validation tool',
+    version= __version__,
+    description='VNF SDK Heat validation REST server',
     license='Apache License Version 2.0',
     url='http://onap.org/',
 
     packages=find_packages('.'),
-#    packages=[
-#        'heat_test',
-#        'heat_test.ice_validator',
-#        'heat_test.ice_validator.tests',
-#        'heat_test.ice_validator.tests.utils'
-#    ],
 
-package_dir={'heat_test': 'heat_test'},
-#    package_dir={
-#        'heat_test': 'src/heat_test',
-#        'heat_test.ice_validator': 'src/heat_test/ice_validator',
-#        'heat_test.ice_validator.tests': 'src/heat_test/ice_validator/tests',
-#        'heat_test.ice_validator.tests.utils': 'src/heat_test/ice_validator/tests/utils'
-#    },
+    package_dir={'heat_test': 'heat_test'},
 
     include_package_data=True,
     install_requires=install_requires,
