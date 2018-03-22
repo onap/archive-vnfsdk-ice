@@ -27,7 +27,7 @@ under the License.
     <artifactId>vnf-sdk-ice-server</artifactId>
     <packaging>pom</packaging>
 
-    <name>ice rest API</name>
+    <name>vnfsdk-ice-ice-server</name>
     <description>rest API for HEAT template validation</description>
     <properties>
         <sonar.sources>.</sonar.sources>
