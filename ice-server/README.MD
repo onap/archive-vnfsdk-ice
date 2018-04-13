@@ -23,8 +23,10 @@ How to run?
  - use virtualenv if needed
  - ``$ pip install -r requirements.txt``
  - check that everything is ok by running unit tests : ``$ tox``
+ - ``$ cd heat_test``
  - ``$ python app.py``
- - Once service is started, from MSB service, verify that "ice-test"  is reported from GET request on "/openoapi/microservices/v1/services"
+ - Once service is started, check the following url: http://127.0.0.1:5000/onapapi/ice/v1/ui
+   you should see a "pong" response in the browser.
 
 Debug/development Mode
 ==========
